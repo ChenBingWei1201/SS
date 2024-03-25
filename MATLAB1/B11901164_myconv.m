@@ -1,13 +1,10 @@
 clear all; clc;
 
 % (a) plot x1[n] vs n and x2[n] vs n
-% Define the range for n
 n = 1:39;
 
-% Define x1[n]
 x1 = [n(1:20), 40 - n(21:39)];
 
-% Define x2[n]
 u = @(n) (n >= 0); % Unit step function
 x2 = u(n - 1) - u(n - 11);
 
@@ -62,10 +59,8 @@ title('(4) y2[n] vs n (matrix form)');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % (d) Repeat (a) to (c)
-% Modify x1[n]
 x1_new = [3 .^ (1:3), zeros(1, 36)];
 
-% Modify x2[n]
 x2_new = [2 .^ (1:5), zeros(1, 34)];
 
 % Plot modified x1[n] and x2[n]
@@ -82,17 +77,19 @@ xlabel('n');
 ylabel('x2[n]');
 title('(6) x2[n] vs n');
 
-% Compute the convolution for modified signals
+% Compute the convolution
 y_new = conv(x1_new, x2_new);
 
-% Plot the output y[n] for modified signals
+min_index_sum = 1 + 1;
+
+% Plot the output y[n]
 figure;
-stem(1:length(y_new), y_new, 'filled');
+stem(min_index_sum:length(y_new)+min_index_sum-1, y_new, 'filled');
 xlabel('n');
 ylabel('y[n]');
 title('(7) y1[n] vs n (conv)');
 
-% Create the convolution matrix for modified signals
+% Create the convolution matrixS
 N1_new = length(x1_new);
 N2_new = length(x2_new);
 conv_matrix_new = zeros(N1_new + N2_new - 1, N1_new);
@@ -100,12 +97,12 @@ for k = 1:N1_new
     conv_matrix_new(:, k) = [zeros(k-1, 1); x1_new'; zeros(N1_new - k, 1)];
 end
 
-% Compute the convolution using matrix form for modified signals
+% Compute the convolution using matrix form
 y_matrix_new = conv_matrix_new * x2_new';
 
-% Plot the output y[n] for modified signals (Matrix Form)
+% Plot the output y[n]
 figure;
-stem(1:length(y_matrix_new), y_matrix_new, 'filled');
+stem(min_index_sum:length(y_matrix_new)+min_index_sum-1, y_matrix_new, 'filled');
 xlabel('n');
 ylabel('y[n]');
 title('(8) y2[n] vs n (matrix form)');
